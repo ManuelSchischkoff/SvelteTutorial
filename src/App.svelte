@@ -1,10 +1,32 @@
 <script>
-	export let name;
+	import Modal from './Modal.svelte';
+
+	let people = [
+		{ name: 'yoshi', beltColour: 'black', age: 25, id: 1},
+		{ name: 'mario', beltColour: 'orange', age: 45, id: 2},
+		{ name: 'luigi', beltColour: 'brown', age: 35, id: 3},
+	];
+
+	const deletePerson = (id) => {
+		// delete the person form people
+		people = people.filter((person) => person.id !== id);
+	};
 </script>
 
+<Modal />
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	{#each people as person (person.id)}
+		<div>
+			<h4>{person.name}</h4>
+			{#if person.beltColour === 'black'}
+				<p><strong>MASTER NINJA</strong></p>
+			{/if}
+			<p>{person.age} years old, {person.beltColour} belt.</p>
+			<button on:click={() => deletePerson(person.id)}>delete</button>
+		</div>
+	{:else}
+		<p>There are no people to show ...</p>
+	{/each}
 </main>
 
 <style>
